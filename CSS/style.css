@@ -36,13 +36,14 @@ body{
     padding-top: 26px;
 }
 
-.mensages{
+.messages{
     background-color: #E5E5E5;
+    overflow-y: scroll;
     
 }
 
 p{
-    padding: 10px 9px 10px 9px;
+    padding: 9px;
     
 }
 
@@ -59,23 +60,23 @@ p{
     
 }
 
-.notificationMensage{
+.notificationMessage{
     background: #DCDCDC;
     border-radius: 2px;
 }
 
-.publicMensage{
+.publicMessage{
     background: #FFFFFF;
     border-radius: 2px;
 }
 
-.privateMensage{
+.privateMessage{
     background: #FFDEDE;
     border-radius: 2px;
 }
 
 .bottom{
-    width: 100%;
+    width: 375px;
     height: 80px;
     background-color: #FFFFFF;
     position: fixed;

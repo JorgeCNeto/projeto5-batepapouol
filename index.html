@@ -18,21 +18,21 @@
     <div class="top">
         <div class="top-icons">
             <img src="Pictures/logo.svg">
-            <ion-icon onclick="changeTypeOfMensage()" name="people"></ion-icon>
+            <ion-icon onclick="changeTypeOfMessage()" name="people"></ion-icon>
         </div>
     </div>
     <div class="content">
-        <ul class="mensages">
-        <li class="text notificationMensage">
+        <ul class="messages">
+        <li class="text notificationMessage">
             <p>(09:21:45) João entra na sala...</p>
         </li>
-        <li class="text publicMensage">
+        <li class="text publicMessage">
             <p>(09:22:28) João para Todos: Bom dia</p>
         </li>
-        <li class="text publicMensage">
+        <li class="text publicMessage">
             <p>(09:22:38) Maria para João: Oi João :)</p>
         </li>
-        <li class="text privateMensage">
+        <li class="text privateMessage">
             <p>(09:22:48) João reservadamente para Maria: Oi gatinha quer tc?</p>
         </li>
         </ul>
@@ -40,12 +40,15 @@
     <div class="bottom">
         <div class="bottom-itens">
             <input type="text" placeholder="Escreva aqui...">
-            <ion-icon onclick="sendMensage()" name="paper-plane-outline"></ion-icon>
+            <ion-icon onclick="sendMessage()" name="paper-plane-outline"></ion-icon>
         </div>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script src="Script/script.js"></script>
 </body>
 </html>
