@@ -1,4 +1,6 @@
-let message ={from:"", to:"", text:"", type:"", time:""} 
+let user;
+
+let input = document.querySelector('input');
 
 function serverStatus(){
     if (/*resposta do servidor 400 */){
@@ -13,7 +15,7 @@ function errorLogin{
     }
 }
 
-function startChat(){
+function startChat(answer){
     setInterval(statusLogin, 5000);
     setInterval(getMessage, 3000);
 }
@@ -29,73 +31,96 @@ function refreshPage(){
 
 function getMessage(){
     msg = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-    msg.then(showMessage);
+    msg.then(addToScreen);
     msg.catch(refreshPage);
 }
 
 
 function login(){
-    const userName = prompt("Qual o seu nome?");
-    login = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', {message:from});
+    const user = prompt("Digite o seu nome:");
+    login = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', user);
     login.then(startChat);
     login.catch(errorLogin);
 }
 
 login();
 
+///////////////////////////////////////////////////////////////////////////////////
 
 
-function showMessage(){
-    let answer = document.querySelector('p');
+function pedirMensagens() {
+    const request = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    request.then(addToScreen);
+   
+}
 
-    switch (type){
-        case 'publicMessage':
-            const publicMessage = answer.innerHTML =`<li class="text publicMessage">
-                                                         <span>${time} ${from} para Todos: ${text}</span>
-                                                    </li>`;
-            return publicMessage;
-        case 'privateMessage':
-            const privateMessage = answer.innerHTML =`<li class="text privateMessage"> 
-                                                          <span>${time} ${from} reservadamente para ${to}: ${text}</span>
-                                                      </li>`;
-            return privateMessage;
-        case 'systemMessage':
-            if (/*condição para entrar na sala e é o usuário*/){
-                const systemMessage =  `<li class="text notificationMessage">
-                                                <span>${time} ${from} entra na sala...</span>
-                                        </li>`;
-            } else if (/*condição para entrar na sala e NÂO é o usuário*/){
-                const systemMessage =  `<li class="text notificationMessage">
-                                                <span>${time} ${to} entra na sala...</span>
-                                        </li>`;
-            } else{
-                const systemMessage =  `<li class="text notificationMessage">
-                                                <span>${time} ${to} saiu na sala...</span>
-                                        </li>`;
-            }
 
-            return systemMessage;
+function addToScreen(answer) {
+    const messages = answer.data;
+    const chat = document.querySelector('.messages');
+    chat.innerHTML = '';
+    let msg;
+
+    for (let i = 0; i < messages.length; i++) {
+        if (messages[i].type == 'status') {
+            msg = `<li class="join">
+        <span class="time">(${messages[i].time})</span>
+        <span class="message"><span class="user">${messages[i].from}</span>
+        ${messages[i].text}</span></li>`;
+            chat.innerHTML = chat.innerHTML + msg;
+        } else if (messages[i].type == 'message') {
+            msg = `<li class="message">
+            <span class="time">(${messages[i].time})</span>
+            <span class="user">${messages[i].from}</span>
+            para<span class="user">todos:</span>
+            ${messages[i].text}
+        </li>`
+            chat.innerHTML = chat.innerHTML + msg;
+            
+        } else if (messages[i].type == 'private_message') {
+            msg = `<li class="message">
+            <span class="time">(${messages[i].time})</span>
+            <span class="user">${messages[i].from}</span>
+            para<span class="user">${messages[i].to}:</span>
+            ${messages[i].text}
+        </li>`
+            chat.innerHTML = chat.innerHTML + msg;
+        }
     }
 
-    
-} 
-
-
-
-function messageTo(){
-
+    scrollMessage();
 }
 
-function sendMessage(){
-   
-    const typedMessage = document.querySelector('input').value;
-
-    messageTo(); //definir para quem mandar
-    
-    const typedText = ('https://mock-api.driven.com.br/api/v6/uol/messages', text:typedMessage);
-    typedText.then(/*precisa de uma função*/);
-    typedText.catch(/*precisa de uma função*/);
-
-    showMessage();
+function clickEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
 }
 
+function sendMessage() {
+    const messageToSend = {
+        from: user,
+        to: "Todos",
+        text: input.value,
+        type: "message"
+    };
+  
+    const sendMessage = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', messageToSend);
+    sendMessage.then(sent);
+    sendMessage.catch(notSent);
+}
+
+function sent(answer) {
+    input.value = '';   
+}
+function notSent(answer) {
+        alert('Mensagem não enviada');
+}
+
+
+function scrollMessage(){
+    const scrolling = document.querySelectorAll(".messages");
+    const ultimoIndice = scrolling.length - 1;
+    scrolling[ultimoIndice].scrollIntoView();
+}

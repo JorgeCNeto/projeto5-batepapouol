@@ -47,6 +47,14 @@ span{
     
 }
 
+.time{
+    height: 40px;
+    width: 65px;
+    display: flex;
+    align-items: center;
+    color: #AAA;
+}
+
 .text{
     width: 100%;
     min-height: 40px;
@@ -59,8 +67,19 @@ span{
     align-items: center;
     
 }
+.message{
+    background-color: #FFF;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    overflow-x: scroll;
+}
 
-.notificationMessage{
+.message::-webkit-scrollbar{
+    display: none;
+}
+
+.systemMessage{
     background: #DCDCDC;
     border-radius: 2px;
 }
@@ -127,4 +146,9 @@ input::placeholder{
     width: 30px;
     height: 30px;
     
+}
+
+.user{  
+    font-weight: bold;
+    margin: 0 3px;
 }
