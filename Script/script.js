@@ -2,14 +2,8 @@ let user;
 
 let input = document.querySelector('input');
 
-function serverStatus(){
-    if (/*resposta do servidor 400 */){
-        return true;
-    }
-}
-
-function errorLogin{
-    while (serverStatus()){
+function errorLogin(){
+    while (erro.response.status === true){
         alert('Este nome já está em uso. Insira outro nome, por favor!');
         login()
     }
@@ -44,7 +38,7 @@ function login(){
 }
 
 login();
-
+console.log(user);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
